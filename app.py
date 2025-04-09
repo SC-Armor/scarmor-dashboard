@@ -114,11 +114,4 @@ with col2:
 # ------------------ FOOTER -------------------
 st.markdown("---")
 st.markdown('<div class="footer">© 2025 SC🛡Armor. All rights reserved. ShieldSync™ is a proprietary technology. Unauthorized use is prohibited. Protected under U.S. copyright law.</div>', unsafe_allow_html=True)
-"""
 
-# Save it to final version for immediate deployment
-final_path = "/mnt/data/app.py"
-with open(final_path, "w") as file:
-    file.write(final_dashboard_code)
-
-final_path
