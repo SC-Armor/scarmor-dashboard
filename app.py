@@ -1,69 +1,79 @@
 import streamlit as st
-import time
 from datetime import datetime
 
-st.set_page_config(page_title="SC-Armor | American Shield Command", layout="wide")
+# --- CONFIG ---
+st.set_page_config(page_title="AMERICAN SHIELD COMMAND", layout="wide")
 
-# ---------- STYLE ----------
-custom_style = '''
+# --- STYLE OVERRIDES ---
+st.markdown('''
     <style>
-    body {
-        background-color: #0b0f1a;
-        color: #ffffff;
-    }
-    .stApp {
-        background-color: #0b0f1a;
-        color: #ffffff;
-    }
-    .block-container {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-        padding-left: 2rem;
-        padding-right: 2rem;
-    }
+        html, body, [class*="css"]  {
+            background-color: #0a0f1a;
+            color: #ffffff;
+            font-family: "Segoe UI", sans-serif;
+        }
+        .block-container {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+        h1, h2, h3, h4 {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .metric-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #AAAAAA;
+        }
+        .section-divider {
+            border-top: 1px solid #333333;
+            margin: 20px 0;
+        }
+        .response-button {
+            background-color: #17375e;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
     </style>
-'''
-st.markdown(custom_style, unsafe_allow_html=True)
+''', unsafe_allow_html=True)
 
-# ---------- HEADER ----------
-st.markdown("<h1 style='color: #ffffff;'>🛡️ AMERICAN SHIELD COMMAND</h1>", unsafe_allow_html=True)
-st.markdown("---")
+# --- HEADER ---
+st.markdown("### 🛡 AMERICAN SHIELD COMMAND")
+st.caption("National Infrastructure Risk Command Interface")
 
-# ---------- LAYOUT ----------
-col1, col2 = st.columns([2, 1])
+# --- TOP LAYOUT ---
+col1, col2 = st.columns([2, 1], gap="medium")
 
 with col1:
-    st.markdown("### 🌨️ Blizzard Forecast")
-    st.markdown("**Location:** Midwest (Iowa, Missouri, Illinois)")
-    st.markdown("**Time to Impact:** 3 days")
-    st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/USA_blank_map.svg/1024px-USA_blank_map.svg.png", width=500, caption="Simulated Disruption Map")
-
-    st.markdown("### 🛡️ SHIELD RESPONSE SUGGESTED")
-    st.success("✅ Divert shipments via Kansas City distribution corridor")
-    if st.button("🔐 INITIATE RESPONSE"):
-        st.info("Shield Response Initiated...")
-        time.sleep(1)
-        st.success("Response Confirmed. Emergency routes activated.")
+    st.image("https://i.imgur.com/66XbnqE.png", caption="Simulated Blizzard Zone", use_column_width=True)  # Placeholder map image
+    st.markdown("### SHIELD RESPONSE SUGGESTED")
+    st.markdown("**Divert shipments via Kansas City distribution corridor**", unsafe_allow_html=True)
+    if st.button("INITIATE RESPONSE"):
+        st.success("✅ Shield response deployed")
+        st.info("Routes updated. Emergency inventory dispatched.")
 
 with col2:
-    st.markdown("### 📈 DISRUPTION PULSE")
-    severity = st.slider("Current Severity Index", 1, 10, 8)
-    gauge_color = "🟢" if severity < 4 else "🟠" if severity < 7 else "🔴"
-    st.markdown(f"**Risk Level:** {gauge_color} {'HIGH' if severity >= 7 else 'MODERATE' if severity >= 4 else 'LOW'}")
+    st.markdown("### DISRUPTION PULSE")
+    st.progress(0.88, text="Risk Level: HIGH")
 
     st.markdown("---")
-    st.markdown("### 🚨 INCOMING DISRUPTIONS")
-    st.write("**WITHOUT ACTION**")
-    st.markdown("- ⏳ 36-hour regional shortage")
-    st.markdown("- 💸 Est $12M in spoiled inventory")
-    st.markdown("- 🔥 Public Risk Level: RED (critical)")
+    st.markdown("### INCOMING DISRUPTIONS")
+    
+    st.markdown("#### Without Action")
+    st.markdown("- 36-hour regional shortage")
+    st.markdown("- Est. $12M in spoiled inventory")
+    st.markdown("- Public Risk Level: RED (critical)")
+    
+    st.markdown("#### With Shield Response")
+    st.markdown("- Shipments rerouted in < 6 hours")
+    st.markdown("- $170K reroute cost")
+    st.markdown("- Public Risk Level: GREEN (contained)")
 
-    st.write("**WITH SHIELD RESPONSE**")
-    st.markdown("- 🚛 Shipments rerouted in under 6 hours")
-    st.markdown("- 💵 $170K reroute cost")
-    st.markdown("- 🟢 Public Risk Level: CONTAINED")
-
-# ---------- FOOTER ----------
+# --- FOOTER ---
 st.markdown("---")
-timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-st.markdown(f"<small style='color:gray;'>Live simulation generated {timestamp}</small>", unsafe_allow_html=True)
+st.markdown("© 2025 American Shield Systems LLC — Proprietary & Confidential")
+st.markdown("*This platform and all source code are protected under U.S. copyright law. Unauthorized duplication or use is prohibited.*")
