@@ -1,65 +1,69 @@
 import streamlit as st
+import time
 from datetime import datetime
 
-st.set_page_config(page_title="SC-Armor | ShieldSync AI", layout="wide")
+st.set_page_config(page_title="SC-Armor | American Shield Command", layout="wide")
 
-# ----------------- HEADER -------------------
-st.markdown("## 🛡️ SC-Armor – ShieldSync AI Dashboard")
-st.markdown("**Protecting National Supply Chain Infrastructure with Live AI-Driven Risk Detection**")
+# ---------- STYLE ----------
+custom_style = '''
+    <style>
+    body {
+        background-color: #0b0f1a;
+        color: #ffffff;
+    }
+    .stApp {
+        background-color: #0b0f1a;
+        color: #ffffff;
+    }
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+    </style>
+'''
+st.markdown(custom_style, unsafe_allow_html=True)
+
+# ---------- HEADER ----------
+st.markdown("<h1 style='color: #ffffff;'>🛡️ AMERICAN SHIELD COMMAND</h1>", unsafe_allow_html=True)
 st.markdown("---")
 
-# ----------------- SIMULATION INPUTS -------------------
-st.sidebar.header("🛰️ Disruption Simulation Input")
-region = st.sidebar.selectbox("Region", ["Midwest", "Northeast", "South", "West Coast"])
-disruption_type = st.sidebar.selectbox("Disruption Type", ["Storm", "Cyber Attack", "Fuel Shortage", "Labor Strike", "Sabotage"])
-severity = st.sidebar.slider("Severity Level", 1, 5, 3)
-hours_to_impact = st.sidebar.slider("Hours to Impact", 0, 24, 6)
-today = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+# ---------- LAYOUT ----------
+col1, col2 = st.columns([2, 1])
 
-# ----------------- GUARDIAN STRAND VERIFICATION -------------------
-def guardian_strand_active():
-    return True  # always active for demo purposes
+with col1:
+    st.markdown("### 🌨️ Blizzard Forecast")
+    st.markdown("**Location:** Midwest (Iowa, Missouri, Illinois)")
+    st.markdown("**Time to Impact:** 3 days")
+    st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/USA_blank_map.svg/1024px-USA_blank_map.svg.png", width=500, caption="Simulated Disruption Map")
 
-st.sidebar.markdown("---")
-if guardian_strand_active():
-    st.sidebar.success("✅ Guardian Strand: VERIFIED")
-else:
-    st.sidebar.error("❌ Guardian Strand: INACTIVE")
+    st.markdown("### 🛡️ SHIELD RESPONSE SUGGESTED")
+    st.success("✅ Divert shipments via Kansas City distribution corridor")
+    if st.button("🔐 INITIATE RESPONSE"):
+        st.info("Shield Response Initiated...")
+        time.sleep(1)
+        st.success("Response Confirmed. Emergency routes activated.")
 
-# ----------------- RISK RESPONSE ENGINE -------------------
-def generate_response(sev):
-    if sev >= 4:
-        return [
-            "🔁 Reroute regional supply chain",
-            "📦 Deploy emergency reserves to hospitals & food hubs",
-            "📡 Notify 3PL partners & reroute trucks via safest path"
-        ]
-    elif sev == 3:
-        return [
-            "📡 Notify 3PL partners",
-            "📊 Increase AI risk monitoring frequency to hourly",
-            "⏳ Deploy early-warning notice to warehouses"
-        ]
-    else:
-        return [
-            "⏳ Continue monitoring conditions",
-            "🧠 AI auto-check scheduled in 60 minutes"
-        ]
+with col2:
+    st.markdown("### 📈 DISRUPTION PULSE")
+    severity = st.slider("Current Severity Index", 1, 10, 8)
+    gauge_color = "🟢" if severity < 4 else "🟠" if severity < 7 else "🔴"
+    st.markdown(f"**Risk Level:** {gauge_color} {'HIGH' if severity >= 7 else 'MODERATE' if severity >= 4 else 'LOW'}")
 
-# ----------------- MAIN DASHBOARD -------------------
-st.subheader("📊 Disruption Summary")
-st.write(f"**Detected Region:** {region}")
-st.write(f"**Type of Disruption:** {disruption_type}")
-st.write(f"**Severity Level:** {severity} / 5")
-st.write(f"**Estimated Time to Impact:** {hours_to_impact} hours")
-st.write(f"**Timestamp:** {today}")
+    st.markdown("---")
+    st.markdown("### 🚨 INCOMING DISRUPTIONS")
+    st.write("**WITHOUT ACTION**")
+    st.markdown("- ⏳ 36-hour regional shortage")
+    st.markdown("- 💸 Est $12M in spoiled inventory")
+    st.markdown("- 🔥 Public Risk Level: RED (critical)")
+
+    st.write("**WITH SHIELD RESPONSE**")
+    st.markdown("- 🚛 Shipments rerouted in under 6 hours")
+    st.markdown("- 💵 $170K reroute cost")
+    st.markdown("- 🟢 Public Risk Level: CONTAINED")
+
+# ---------- FOOTER ----------
 st.markdown("---")
-
-if st.button("🔐 Initiate AI Risk Assessment"):
-    action_plan = generate_response(severity)
-    st.success("✅ AI Recommended Action Plan:")
-    for step in action_plan:
-        st.write(f"- {step}")
-    st.info("🛡️ SC-Armor AI recommendation delivered. Awaiting human confirmation or auto-execution based on client setting.")
-else:
-    st.warning("⚠️ No simulation running. Adjust parameters and press the button to initiate AI analysis.")
+timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+st.markdown(f"<small style='color:gray;'>Live simulation generated {timestamp}</small>", unsafe_allow_html=True)
