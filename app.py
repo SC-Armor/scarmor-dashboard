@@ -7,7 +7,7 @@ st.set_page_config(page_title="SC-Armor Dashboard", layout="wide")
 
 # Branding Header
 st.markdown("# SC🛡Armor – ShieldSync Core")
-st.markdown("**National Supply Chain Disruption Defense AI**")
+st.markdown("**AI-Enhanced Supply Chain Risk Response System**")  # Updated subtitle
 st.markdown("---")
 
 # Simulated disruption data
