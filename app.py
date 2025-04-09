@@ -1,79 +1,121 @@
+
 import streamlit as st
+import plotly.graph_objects as go
 from datetime import datetime
 
-# --- CONFIG ---
-st.set_page_config(page_title="AMERICAN SHIELD COMMAND", layout="wide")
+st.set_page_config(page_title="ShieldSync Dashboard", layout="wide")
 
-# --- STYLE OVERRIDES ---
+# ----------- STYLE -------------
 st.markdown('''
     <style>
-        html, body, [class*="css"]  {
-            background-color: #0a0f1a;
+        body {
+            background-color: #0b0f1a;
             color: #ffffff;
-            font-family: "Segoe UI", sans-serif;
         }
-        .block-container {
-            padding-top: 2rem;
-            padding-bottom: 2rem;
-            padding-left: 2rem;
-            padding-right: 2rem;
+        .stApp {
+            background-color: #0b0f1a;
         }
-        h1, h2, h3, h4 {
+        h1, h2, h3 {
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        .metric-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: #AAAAAA;
+        .footer {
+            color: gray;
+            font-size: 11px;
+            text-align: center;
+            margin-top: 30px;
         }
-        .section-divider {
-            border-top: 1px solid #333333;
-            margin: 20px 0;
-        }
-        .response-button {
-            background-color: #17375e;
-            color: white;
-            padding: 10px 25px;
-            border-radius: 6px;
-            font-size: 14px;
+        .division {
+            font-size: 12px;
+            color: #888888;
+            text-align: center;
+            margin-bottom: -20px;
         }
     </style>
 ''', unsafe_allow_html=True)
 
-# --- HEADER ---
-st.markdown("### 🛡 AMERICAN SHIELD COMMAND")
-st.caption("National Infrastructure Risk Command Interface")
+# ----------- HEADER / BRANDING -------------
+st.markdown("## 🛡 SHIELDSYNC")
+st.markdown("<div class='division'>A division of SC🛡Armor</div>", unsafe_allow_html=True)
+st.markdown("### NATIONAL SUPPLY CHAIN COMMAND INTERFACE")
+st.markdown("---")
 
-# --- TOP LAYOUT ---
-col1, col2 = st.columns([2, 1], gap="medium")
+col1, col2 = st.columns([2, 1], gap="large")
 
+# ----------- MAP / FORECAST SECTION -------------
 with col1:
-    st.image("https://i.imgur.com/66XbnqE.png", caption="Simulated Blizzard Zone", use_column_width=True)  # Placeholder map image
-    st.markdown("### SHIELD RESPONSE SUGGESTED")
-    st.markdown("**Divert shipments via Kansas City distribution corridor**", unsafe_allow_html=True)
-    if st.button("INITIATE RESPONSE"):
-        st.success("✅ Shield response deployed")
-        st.info("Routes updated. Emergency inventory dispatched.")
+    st.subheader("📍 Midwest Disruption")
+    st.markdown("**Blizzard Forecast - 3 Days**")
+    
+    # Glowing hotspot effect using Plotly
+    fig = go.Figure(go.Scattergeo(
+        lon=[-93.5], lat=[41.9],
+        mode='markers',
+        marker=dict(size=120, color='red', opacity=0.3),
+        text=["Blizzard Forecast"],
+    ))
 
+    fig.update_geos(
+        scope="usa",
+        showland=True, landcolor="#1f2c3d",
+        showcountries=True, countrycolor="#444",
+        showlakes=False,
+        lataxis=dict(range=[30, 50]),
+        lonaxis=dict(range=[-105, -80])
+    )
+
+    fig.update_layout(
+        margin=dict(l=0, r=0, t=0, b=0),
+        paper_bgcolor="#0b0f1a",
+        geo_bgcolor="#0b0f1a",
+        height=400
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+    st.markdown("### 🛡 SHIELD RESPONSE SUGGESTED")
+    st.markdown("**Divert shipments via Kansas City distribution corridor**")
+
+    if st.button("🔐 INITIATE RESPONSE"):
+        st.success("✅ Response Confirmed")
+        st.info("Emergency routes activated. Simulation logged.")
+
+# ----------- METRICS SECTION -------------
 with col2:
-    st.markdown("### DISRUPTION PULSE")
-    st.progress(0.88, text="Risk Level: HIGH")
+    st.subheader("📊 Disruption Pulse")
+    severity = st.slider("Current Severity Level", 1, 10, 8)
+    gauge_color = "#3adb76" if severity < 4 else "#f39c12" if severity < 7 else "#e74c3c"
+    
+    fig2 = go.Figure(go.Indicator(
+        mode="gauge+number",
+        value=severity,
+        domain={'x': [0, 1], 'y': [0, 1]},
+        gauge={
+            'axis': {'range': [0, 10]},
+            'bar': {'color': gauge_color},
+            'steps': [
+                {'range': [0, 3], 'color': "#1e5631"},
+                {'range': [3, 7], 'color': "#f1c40f"},
+                {'range': [7, 10], 'color': "#c0392b"}
+            ],
+        }
+    ))
+    fig2.update_layout(height=250, margin=dict(t=0, b=0, l=10, r=10), paper_bgcolor="#0b0f1a", font_color="#ffffff")
+    st.plotly_chart(fig2)
 
     st.markdown("---")
-    st.markdown("### INCOMING DISRUPTIONS")
-    
-    st.markdown("#### Without Action")
-    st.markdown("- 36-hour regional shortage")
-    st.markdown("- Est. $12M in spoiled inventory")
-    st.markdown("- Public Risk Level: RED (critical)")
-    
-    st.markdown("#### With Shield Response")
-    st.markdown("- Shipments rerouted in < 6 hours")
-    st.markdown("- $170K reroute cost")
-    st.markdown("- Public Risk Level: GREEN (contained)")
+    st.subheader("📦 Incoming Disruptions")
 
-# --- FOOTER ---
+    st.markdown("**WITHOUT ACTION**")
+    st.markdown("- ❌ 36-hour regional shortage")
+    st.markdown("- ❌ Est. $12M in spoiled inventory")
+    st.markdown("- 🔥 Public Risk Level: RED")
+
+    st.markdown("**WITH SHIELD RESPONSE**")
+    st.markdown("- ✅ Shipments rerouted in < 6 hours")
+    st.markdown("- ✅ $170K reroute cost")
+    st.markdown("- 🟢 Public Risk Level: CONTAINED")
+
+# ----------- FOOTER / COPYRIGHT -------------
 st.markdown("---")
-st.markdown("© 2025 American Shield Systems LLC — Proprietary & Confidential")
-st.markdown("*This platform and all source code are protected under U.S. copyright law. Unauthorized duplication or use is prohibited.*")
+st.markdown("<div class='footer'>© 2025 SC🛡Armor. All rights reserved. ShieldSync™ is a proprietary technology. Unauthorized use is prohibited.</div>", unsafe_allow_html=True)
